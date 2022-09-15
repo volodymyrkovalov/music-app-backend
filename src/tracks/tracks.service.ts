@@ -1,5 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId } from 'mongoose';
 import { FilesService } from '../files/files.service';
@@ -11,7 +10,6 @@ import { Track, TrackDocument } from './schemas/track.schema';
 export class TracksService {
   constructor(
     @InjectModel(Track.name) private trackModel: Model<TrackDocument>,
-    @Inject('MICRO') private readonly microClient: ClientProxy,
     private filesService: FilesService,
   ) {}
 
@@ -37,8 +35,7 @@ export class TracksService {
 
   async findAll(count = 10, offset = 0): Promise<Track[]> {
     const tracks = await this.trackModel.find().skip(offset).limit(count);
-    const newTracks = this.microClient.send('tracks_received', tracks);
-    return newTracks as any;
+    return tracks;
   }
 
   async findOne(id: ObjectId) {

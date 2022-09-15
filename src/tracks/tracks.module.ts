@@ -11,21 +11,6 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
   imports: [
     MongooseModule.forFeature([{ name: Track.name, schema: TrackSchema }]),
     FilesModule,
-    ClientsModule.register([
-      {
-        name: 'MICRO',
-        transport: Transport.RMQ,
-        options: {
-          urls: [
-            'amqps://ijlzzeta:I3GvVmS3-Age28GhzRvo6cGXCvJPfuNV@rat.rmq2.cloudamqp.com/ijlzzeta',
-          ],
-          queue: 'main_queue',
-          queueOptions: {
-            durable: false,
-          },
-        },
-      },
-    ]),
   ],
   controllers: [TracksController],
   providers: [TracksService, FilesService],
