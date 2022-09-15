@@ -1,9 +1,5 @@
 name: Github Actions Pipeline
-on:
-  push:
-    branches: [main]
-  pull:
-    branches: [main]
+on: [push]
 jobs:
   init:
     runs-on: ubuntu-latest
